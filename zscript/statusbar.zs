@@ -514,7 +514,7 @@ class HDStatusBar:DoomStatusBar{
 			pnewsmallfont,FormatNumber(hpl.health),
 			(0,mxht),DI_TEXT_ALIGN_CENTER|DI_SCREEN_CENTER_BOTTOM,
 			hpl.health>70?Font.CR_OLIVE:(hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
-		);else DrawHealthTicker();
+		);else if(hudlevel==2) DrawHealthTicker();
 
 
 		//frags
@@ -527,7 +527,7 @@ class HDStatusBar:DoomStatusBar{
 
 
 		//heartbeat/playercolour tracker
-		if(hpl.beatmax){
+		if(hpl.beatmax&&hudlevel==2){
 			float cpb=hpl.beatcount*1./hpl.beatmax;
 			float ysc=-(3+hpl.bloodpressure*0.05);
 			if(!hud_aspectscale.getbool())ysc*=1.2;
@@ -690,7 +690,7 @@ class HDStatusBar:DoomStatusBar{
 //i think this might be it!
 //yes, it is!:3
 
-		if(usemughud){
+		if(usemughud&&hudlevel==2){
 		//draw the portrait display
 		DrawTexture(
 			TexMan.CheckForTexture("RE1STATS"),(0,0),
