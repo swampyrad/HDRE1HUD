@@ -8,6 +8,8 @@ tracker.
 
 Credits:
 
+Original statusbar.zs code by MatthewTheGlutton
+
 Inventory Screen assets by Capcom
 
 Sprites ripped by Baddassbill 
