@@ -7,6 +7,8 @@ the player mug, inventory items, and heart
 tracker.
 
 Credits:
+
 Inventory Screen assets by Capcom
+
 Sprites ripped by Baddassbill 
 from Spriter's Resource
