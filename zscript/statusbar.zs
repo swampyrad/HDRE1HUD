@@ -462,53 +462,20 @@ class HDStatusBar:DoomStatusBar{
 
 
 //this is where it draws the inventory items
+//hide if not holding Use key
 
+    if (hudlevel==2){
     //panel display graphic
         DrawTexture(
-			TexMan.CheckForTexture("RE1PANEL"),(0,44),
-			DI_ITEM_RIGHT_TOP|DI_SCREEN_RIGHT_TOP
+			TexMan.CheckForTexture("RE1PANEL"),(-30,90),
+			DI_SCREEN_RIGHT_TOP,
+			scale:(1.1,1.2)
 		);
-    
 		//inventory
-	  //DrawSurroundingInv(-60,54,42,mxht,DI_SCREEN_RIGHT_TOP);
-		DrawInvSel(-28,66,42,mxht,DI_SCREEN_RIGHT_TOP);
-
-		//keys
-		string keytype="";
-		if(hpl.countinv("BlueCard"))keytype="STKEYS0";
-		if(hpl.countinv("BlueSkull")){
-			if(keytype=="")keytype="STKEYS3";
-			else keytype="STKEYS6";
-		}
-		if(keytype!="")drawimage(
-			keytype,
-			(50,-16),
-			DI_SCREEN_CENTER_BOTTOM
-		);
-		keytype="";
-		if(hpl.countinv("YellowCard"))keytype="STKEYS1";
-		if(hpl.countinv("YellowSkull")){
-			if(keytype=="")keytype="STKEYS4";
-			else keytype="STKEYS7";
-		}
-		if(keytype!="")drawimage(
-			keytype,
-			(50,-10),
-			DI_SCREEN_CENTER_BOTTOM
-		);
-		keytype="";
-		if(hpl.countinv("RedCard"))keytype="STKEYS2";
-		if(hpl.countinv("RedSkull")){
-			if(keytype=="")keytype="STKEYS5";
-			else keytype="STKEYS8";
-		}
-		if(keytype!="")drawimage(
-			keytype,
-			(50,-4),
-			DI_SCREEN_CENTER_BOTTOM
-		);
-
-
+		DrawSurroundingInv(-30,84,42,mxht,DI_SCREEN_RIGHT_TOP);
+		DrawInvSel(-30,74,42,mxht,DI_SCREEN_RIGHT_TOP);
+    }
+    
 		//health
 		if(hd_debug)drawstring(
 			pnewsmallfont,FormatNumber(hpl.health),
@@ -524,8 +491,6 @@ class HDStatusBar:DoomStatusBar{
 			Font.CR_RED
 		);
 
-
-
 		//heartbeat/playercolour tracker
 		if(hpl.beatmax&&hudlevel==2){
 			float cpb=hpl.beatcount*1./hpl.beatmax;
@@ -536,7 +501,13 @@ class HDStatusBar:DoomStatusBar{
 				22,26-cpb*2,3,ysc, DI_SCREEN_CENTER_TOP
 			);
 		}
-
+		
+	//armour/weapon display graphic
+        DrawTexture(
+			TexMan.CheckForTexture("RE1PANL2"),(-56,0),
+			DI_SCREEN_CENTER_BOTTOM
+		);
+		
 		//items
 		DrawItemHUDAdditions(
 			usemughud?HDSB_MUGSHOT:0
@@ -547,23 +518,58 @@ class HDStatusBar:DoomStatusBar{
 		if(cplayer.readyweapon&&cplayer.readyweapon!=WP_NOCHANGE)
 			drawweaponstatus(cplayer.readyweapon);
 			
-/*  didn't really like how this looked
-    //weapon display panel
-    DrawTexture(
-			TexMan.CheckForTexture("RE1PANEL"),(60,0),
-			DI_ITEM_CENTER_BOTTOM|DI_SCREEN_CENTER_BOTTOM
-		);
-*/
-
+			
     //this is where it draws the gun pickup sprite
 		//weapon sprite
 		if(
 			hudlevel==2
 			||cvar.getcvar("hd_hudsprite",cplayer).getbool()
 			||!cvar.getcvar("r_drawplayersprites",cplayer).getbool()
-		)
-		drawselectedweapon(44,-8,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
-
+		){
+		    //keys display panel
+            DrawTexture(
+			    TexMan.CheckForTexture("RE1PANL3"),(38,0)
+			    ,DI_ITEM_CENTER_BOTTOM|DI_SCREEN_CENTER_BOTTOM
+		    );
+		    drawselectedweapon(58,-6,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
+	   
+	    //draw keys if weapon sprite is displayed
+		//keys
+		string keytype="";
+		if(hpl.countinv("BlueCard"))keytype="STKEYS0";
+		if(hpl.countinv("BlueSkull")){
+			if(keytype=="")keytype="STKEYS3";
+			else keytype="STKEYS6";
+		}
+		if(keytype!="")drawimage(
+			keytype,
+			(40,-21),
+			DI_SCREEN_CENTER_BOTTOM
+		);
+		keytype="";
+		if(hpl.countinv("YellowCard"))keytype="STKEYS1";
+		if(hpl.countinv("YellowSkull")){
+			if(keytype=="")keytype="STKEYS4";
+			else keytype="STKEYS7";
+		}
+		if(keytype!="")drawimage(
+			keytype,
+			(40,-13),
+			DI_SCREEN_CENTER_BOTTOM
+		);
+		keytype="";
+		if(hpl.countinv("RedCard"))keytype="STKEYS2";
+		if(hpl.countinv("RedSkull")){
+			if(keytype=="")keytype="STKEYS5";
+			else keytype="STKEYS8";
+		}
+		if(keytype!="")drawimage(
+			keytype,
+			(40,-5),
+			DI_SCREEN_CENTER_BOTTOM
+		);
+		}
+		
 		//full hud consequences
 		if(hudlevel==2){
 			drawweaponstash();
@@ -687,8 +693,7 @@ class HDStatusBar:DoomStatusBar{
 			);
 		}
 
-//i think this might be it!
-//yes, it is!:3
+        //this is the mugshot position
 
 		if(usemughud&&hudlevel==2){
 		//draw the portrait display
@@ -800,7 +805,7 @@ class HDStatusBar:DoomStatusBar{
 		string ongfx,string offgfx,
 		class<inventory> type,
 		vector2 coords,
-		int flags=DI_SCREEN_RIGHT_BOTTOM|DI_ITEM_RIGHT_BOTTOM
+		int flags=DI_SCREEN_RIGHT_TOP|DI_ITEM_RIGHT_TOP
 	){
 		inventory inv=cplayer.mo.findinventory(type);
 		if(!inv||!inv.amount){
@@ -810,7 +815,7 @@ class HDStatusBar:DoomStatusBar{
 			drawbar(
 				ongfx,offgfx,
 				min(arbitrarymax,inv.amount),arbitrarymax,
-				coords,-1,
+				coords,
 				SHADER_VERT,flags
 			);
 		}
@@ -824,6 +829,7 @@ class HDStatusBar:DoomStatusBar{
 		}
 	}
 	color savedcolour;
+	
 	void DrawInvSel(int posx,int posy,int numposx,int numposy,int flags){
 		if(CPlayer.mo.InvSel){
 			inventory ivs=cplayer.mo.invsel;
@@ -844,13 +850,13 @@ class HDStatusBar:DoomStatusBar{
 				int pivsi=pivs.getsbarnum();
 				if(pivsi!=-1000000)drawstring(
 					pnewsmallfont,FormatNumber(pivsi),
-					(numposx,numposy-7),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
+					(numposx,numposy-7),savedcolour,scale:(0.5,0.5)
 				);
 			}else if(piws){
 				int piwsi=piws.getsbarnum();
 				if(piwsi!=-1000000)drawstring(
 					pnewsmallfont,FormatNumber(piwsi),
-					(numposx,numposy-7),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
+					(numposx,numposy-7),savedcolour,scale:(0.5,0.5)
 				);
 			}
 
@@ -861,7 +867,7 @@ class HDStatusBar:DoomStatusBar{
 				ivs.amount
 			;
 			drawstring(pnewsmallfont,FormatNumber(invamt),
-				(numposx,numposy),flags|DI_TEXT_ALIGN_RIGHT,savedcolour,scale:(0.5,0.5)
+				(numposx,numposy),flags|savedcolour,scale:(0.5,0.5)
 			);
 		}
 	}
