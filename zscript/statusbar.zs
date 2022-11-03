@@ -212,6 +212,8 @@ class HDStatusBar:DoomStatusBar{
 		else if(hudusetimer>=hudthreshold1/100)hudlevel=1;
 		else hudlevel=0;
 	}
+	
+	
 	override void Draw(int state,double TicFrac){
 		hpl=hdplayerpawn(cplayer.mo);
 		if(
@@ -219,7 +221,6 @@ class HDStatusBar:DoomStatusBar{
 			||!hpl
 		)return;
 		cplayer.inventorytics=0;
-
 
 		if(automapactive){
 			DrawAutomapHUD(ticfrac);
@@ -258,7 +259,7 @@ class HDStatusBar:DoomStatusBar{
 		if(idmypos)drawmypos();
 	}
 	
-	//ignore this, doesn't have anything to do with the HUD
+//ignore this, doesn't have anything to do with the HUD
 	void DrawAutomapStuff(){
 		SetSize(0,480,300);
 		BeginHUD();
@@ -317,6 +318,7 @@ class HDStatusBar:DoomStatusBar{
 
 		drawmypos(10);
 	}
+//end of DrawAutomapStuff
 
 	void DrawMyPos(int downpos=(STB_COMPRAD<<2)){
 		//permanent mypos
@@ -460,11 +462,11 @@ class HDStatusBar:DoomStatusBar{
 		int mxht=-4-mIndexFont.mFont.GetHeight();
 		int mhht=-4-mHUDFont.mFont.getheight();
 
-
 //this is where it draws the inventory items
-//hide if not holding Use key
+//hide if not holding Use key, or if
+//"Always show full HUD" is enabled
 
-    if (hudlevel==2){
+    if (hudlevel==2||RE1HUD_AlwaysShow){
     //panel display graphic
         DrawTexture(
 			TexMan.CheckForTexture("RE1PANEL"),(-30,90),
@@ -481,7 +483,13 @@ class HDStatusBar:DoomStatusBar{
 			pnewsmallfont,FormatNumber(hpl.health),
 			(0,mxht),DI_TEXT_ALIGN_CENTER|DI_SCREEN_CENTER_BOTTOM,
 			hpl.health>70?Font.CR_OLIVE:(hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
-		);else if(hudlevel==2) DrawHealthTicker();
+		);else if(hudlevel==2||RE1HUD_AlwaysShow){
+		    DrawTexture(
+			    TexMan.CheckForTexture("RE1HEART"),(2,20),
+			    DI_ITEM_CENTER|DI_SCREEN_CENTER_TOP
+		    );
+		    DrawHealthTicker();
+		    }
 
 
 		//frags
@@ -492,7 +500,8 @@ class HDStatusBar:DoomStatusBar{
 		);
 
 		//heartbeat/playercolour tracker
-		if(hpl.beatmax&&hudlevel==2){
+		if(hpl.beatmax&&RE1HUD_AlwaysShow||hudlevel==2){
+		
 			float cpb=hpl.beatcount*1./hpl.beatmax;
 			float ysc=-(3+hpl.bloodpressure*0.05);
 			if(!hud_aspectscale.getbool())ysc*=1.2;
@@ -523,6 +532,7 @@ class HDStatusBar:DoomStatusBar{
 		//weapon sprite
 		if(
 			hudlevel==2
+			||RE1HUD_AlwaysShow
 			||cvar.getcvar("hd_hudsprite",cplayer).getbool()
 			||!cvar.getcvar("r_drawplayersprites",cplayer).getbool()
 		){
@@ -695,7 +705,7 @@ class HDStatusBar:DoomStatusBar{
 
         //this is the mugshot position
 
-		if(usemughud&&hudlevel==2){
+		if(usemughud&&RE1HUD_AlwaysShow||hudlevel==2){
 		//draw the portrait display
 		DrawTexture(
 			TexMan.CheckForTexture("RE1STATS"),(0,0),
@@ -768,11 +778,6 @@ class HDStatusBar:DoomStatusBar{
 		vector2 drawpos=(-3,20),
 		int flags=DI_SCREEN_CENTER_TOP
 	){
-	    //draw ekg display
-	    DrawTexture(
-			TexMan.CheckForTexture("RE1HEART"),(2,20),
-			DI_ITEM_CENTER|DI_SCREEN_CENTER_TOP
-		);
 	
 		let cp=hdplayerpawn(cplayer.mo);
 		if(!hpl.beatcount){
