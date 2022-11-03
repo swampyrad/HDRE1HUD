@@ -1,0 +1,1 @@
+nosave bool RE1HUD_AlwaysShow = false;

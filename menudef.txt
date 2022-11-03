@@ -1,0 +1,13 @@
+
+AddOptionMenu "OptionsMenu"
+{
+  Submenu "RE1 HUD Options", "RE1HUDOptions"
+}
+
+OptionMenu RE1HUDOptions
+{
+  Title "RE1 HUD Options"
+  
+	Option "Always show Full HUD", "RE1HUD_AlwaysShow", "OnOff"
+}
+
