@@ -6,6 +6,8 @@ inventory screen. Adds display panels for
 the player mug, inventory items, and heart
 tracker.
 
+[WIP - May contain graphical errors]
+
 Credits:
 
 Original statusbar.zs code by MatthewTheGlutton
