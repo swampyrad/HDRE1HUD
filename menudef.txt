@@ -8,6 +8,9 @@ OptionMenu RE1HUDOptions
 {
   Title "RE1 HUD Options"
   
-	Option "Always show Full HUD", "RE1HUD_AlwaysShow", "OnOff"
+	Option "Always show Full HUD: ", "RE1HUD_AlwaysShow", "OnOff"
+	Slider "Mug Offset X: ", "RE1HUD_MugOffsetX", -10, 10, 1, 0
+	Slider "Mug Offset Y: ", "RE1HUD_MugOffsetY", -10, 10, 1, 0
+	
 }
 

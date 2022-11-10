@@ -1,1 +1,3 @@
 nosave bool RE1HUD_AlwaysShow = false;
+nosave int RE1HUD_MugOffsetX = 0;
+nosave int RE1HUD_MugOffsetY = 0;
