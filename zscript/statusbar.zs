@@ -414,21 +414,16 @@ class HDStatusBar:DoomStatusBar{
 			}
 		}
 
-
 		//update loadout1 based on old custom
 		//delete once old custom is gone!
 		let lomt=LoadoutMenuHackToken(ThinkerFlag.Find(cplayer.mo,"LoadoutMenuHackToken"));
 		if(lomt)cvar.findcvar("hd_loadout1").setstring(lomt.loadout);
-
-
 
 		//draw the crosshair
 		if(
 			!blurred
 			&&hpl.health>0
 		)DrawHDXHair(hpl,ticfrac);
-
-
 
 		//draw item overlays
 		for(int i=0;i<hpl.OverlayGivers.size();i++){
@@ -438,7 +433,6 @@ class HDStatusBar:DoomStatusBar{
 				&&ppp.owner==hpl
 			)ppp.DisplayOverlay(self,hpl);
 		}
-
 
 		//draw information text for selected weapon
 		SetSize(0,320,200);
@@ -450,8 +444,8 @@ class HDStatusBar:DoomStatusBar{
 			translation:Font.CR_DARKGRAY,
 			wrapwidth:smallfont.StringWidth("m")*80
 		);
-
 	}
+	
 	void DrawCommonStuff(bool usemughud){
 		let cp=HDPlayerPawn(CPlayer.mo);
 		if(
@@ -469,13 +463,18 @@ class HDStatusBar:DoomStatusBar{
     if (hudlevel==2||RE1HUD_AlwaysShow){
     //panel display graphic
         DrawTexture(
-			TexMan.CheckForTexture("RE1PANEL"),(-30,90),
-			DI_SCREEN_RIGHT_TOP,
-			scale:(1.1,1.2)
+			TexMan.CheckForTexture("RE1PANEL"),(-41,100),
+			DI_SCREEN_RIGHT_TOP
 		);
 		//inventory
-		DrawSurroundingInv(-30,84,42,mxht,DI_SCREEN_RIGHT_TOP);
-		DrawInvSel(-30,74,42,mxht,DI_SCREEN_RIGHT_TOP);
+		DrawSurroundingInv(
+		    -45,89,//icon xy
+		    -28,93,//num xy
+		    DI_SCREEN_RIGHT_TOP);
+		DrawInvSel(
+		    -45,79,//icon xy
+		    -28,83,//num xy
+		    DI_SCREEN_RIGHT_TOP);
     }
     
 		//health
@@ -538,10 +537,10 @@ class HDStatusBar:DoomStatusBar{
 		){
 		    //keys display panel
             DrawTexture(
-			    TexMan.CheckForTexture("RE1PANL3"),(38,0)
+			    TexMan.CheckForTexture("RE1PANL3"),(58,0)
 			    ,DI_ITEM_CENTER_BOTTOM|DI_SCREEN_CENTER_BOTTOM
 		    );
-		    drawselectedweapon(58,-6,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
+		    drawselectedweapon(78,-6,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
 	   
 	    //draw keys if weapon sprite is displayed
 		//keys
@@ -553,7 +552,7 @@ class HDStatusBar:DoomStatusBar{
 		}
 		if(keytype!="")drawimage(
 			keytype,
-			(40,-21),
+			(60,-21),
 			DI_SCREEN_CENTER_BOTTOM
 		);
 		keytype="";
@@ -564,7 +563,7 @@ class HDStatusBar:DoomStatusBar{
 		}
 		if(keytype!="")drawimage(
 			keytype,
-			(40,-13),
+			(60,-13),
 			DI_SCREEN_CENTER_BOTTOM
 		);
 		keytype="";
@@ -575,7 +574,7 @@ class HDStatusBar:DoomStatusBar{
 		}
 		if(keytype!="")drawimage(
 			keytype,
-			(40,-5),
+			(60,-5),
 			DI_SCREEN_CENTER_BOTTOM
 		);
 		}
@@ -703,18 +702,19 @@ class HDStatusBar:DoomStatusBar{
 			);
 		}
 
-        //this is the mugshot position
+//this is the mugshot position
 
 		if(usemughud&&RE1HUD_AlwaysShow||hudlevel==2){
-		//draw the portrait display
+	//draw the portrait display
 		DrawTexture(
 			TexMan.CheckForTexture("RE1STATS"),(0,0),
 			DI_ITEM_RIGHT_TOP|DI_SCREEN_RIGHT_TOP
 		);
 		
-		//draw mug on top
+	//draw mug on top
 		DrawTexture(
-			GetMugShot(5,Mugshot.CUSTOM,getmug(hpl.mugshot)),(-23,6),
+			GetMugShot(5,Mugshot.CUSTOM,getmug(hpl.mugshot)),
+			(-23+RE1HUD_MugOffsetX,6+RE1HUD_MugOffsetY),
 			DI_ITEM_RIGHT_TOP|DI_SCREEN_RIGHT_TOP,
 			alpha:blurred?0.2:1.
 		);}
@@ -855,13 +855,13 @@ class HDStatusBar:DoomStatusBar{
 				int pivsi=pivs.getsbarnum();
 				if(pivsi!=-1000000)drawstring(
 					pnewsmallfont,FormatNumber(pivsi),
-					(numposx,numposy-7),savedcolour,scale:(0.5,0.5)
+					(numposx,numposy-7),flags|DI_TEXT_ALIGN_LEFT,savedcolour,scale:(0.5,0.5)
 				);
 			}else if(piws){
 				int piwsi=piws.getsbarnum();
 				if(piwsi!=-1000000)drawstring(
 					pnewsmallfont,FormatNumber(piwsi),
-					(numposx,numposy-7),savedcolour,scale:(0.5,0.5)
+					(numposx,numposy-7),flags|DI_TEXT_ALIGN_LEFT,savedcolour,scale:(0.5,0.5)
 				);
 			}
 
