@@ -477,16 +477,35 @@ class HDStatusBar:DoomStatusBar{
 		    DI_SCREEN_RIGHT_TOP);
     }
     
+    
+    
 		//health
 		if(hd_debug)drawstring(
 			pnewsmallfont,FormatNumber(hpl.health),
 			(0,mxht),DI_TEXT_ALIGN_CENTER|DI_SCREEN_CENTER_BOTTOM,
-			hpl.health>70?Font.CR_OLIVE:(hpl.health>33?Font.CR_GOLD:Font.CR_RED),scale:(0.5,0.5)
+			hpl.health>75?Font.CR_DARKGREEN:
+		   (hpl.health>50?Font.CR_GOLD:
+		   (hpl.health>25?Font.CR_ORANGE:
+		    Font.CR_RED)),scale:(0.5,0.5)
 		);else if(hudlevel==2||RE1HUD_AlwaysShow){
+		
+		//draw the display panel
 		    DrawTexture(
 			    TexMan.CheckForTexture("RE1HEART"),(2,20),
 			    DI_ITEM_CENTER|DI_SCREEN_CENTER_TOP
 		    );
+		//print current health status
+		    DrawString(pnewsmallfont,
+		        hpl.health>75?"Fine":
+		       (hpl.health>25?"Caution":
+		       "Danger!"),
+				(25,28),DI_TEXT_ALIGN_RIGHT|DI_SCREEN_CENTER_TOP,
+				hpl.health>75?Font.CR_DARKGREEN:
+			   (hpl.health>50?Font.CR_GOLD:
+			   (hpl.health>25?Font.CR_ORANGE:
+			    Font.CR_RED)),scale:(0.5,0.5)
+			);
+		    
 		    DrawHealthTicker();
 		    }
 
@@ -535,13 +554,14 @@ class HDStatusBar:DoomStatusBar{
 			||cvar.getcvar("hd_hudsprite",cplayer).getbool()
 			||!cvar.getcvar("r_drawplayersprites",cplayer).getbool()
 		){
-		    //keys display panel
-            DrawTexture(
-			    TexMan.CheckForTexture("RE1PANL3"),(58,0)
-			    ,DI_ITEM_CENTER_BOTTOM|DI_SCREEN_CENTER_BOTTOM
-		    );
 		    drawselectedweapon(78,-6,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
 	   
+//keys display panel
+        DrawTexture(
+		    TexMan.CheckForTexture("RE1PANL3"),(58,34)
+		    ,DI_SCREEN_CENTER_TOP
+	    );
+		    
 	    //draw keys if weapon sprite is displayed
 		//keys
 		string keytype="";
@@ -552,8 +572,8 @@ class HDStatusBar:DoomStatusBar{
 		}
 		if(keytype!="")drawimage(
 			keytype,
-			(60,-21),
-			DI_SCREEN_CENTER_BOTTOM
+			(60,12),
+			DI_SCREEN_CENTER_TOP
 		);
 		keytype="";
 		if(hpl.countinv("YellowCard"))keytype="STKEYS1";
@@ -563,8 +583,8 @@ class HDStatusBar:DoomStatusBar{
 		}
 		if(keytype!="")drawimage(
 			keytype,
-			(60,-13),
-			DI_SCREEN_CENTER_BOTTOM
+			(60,21),
+			DI_SCREEN_CENTER_TOP
 		);
 		keytype="";
 		if(hpl.countinv("RedCard"))keytype="STKEYS2";
@@ -574,8 +594,8 @@ class HDStatusBar:DoomStatusBar{
 		}
 		if(keytype!="")drawimage(
 			keytype,
-			(60,-5),
-			DI_SCREEN_CENTER_BOTTOM
+			(60,30),
+			DI_SCREEN_CENTER_TOP
 		);
 		}
 		
