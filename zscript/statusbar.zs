@@ -456,9 +456,9 @@ class HDStatusBar:DoomStatusBar{
 		int mxht=-4-mIndexFont.mFont.GetHeight();
 		int mhht=-4-mHUDFont.mFont.getheight();
 
-//this is where it draws the inventory items
-//hide if not holding Use key, or if
-//"Always show full HUD" is enabled
+    //this is where it draws the inventory items
+    //hide if not holding Use key, or if
+    //"Always show full HUD" is enabled
 
     if (hudlevel==2||RE1HUD_AlwaysShow){
     //panel display graphic
@@ -494,12 +494,12 @@ class HDStatusBar:DoomStatusBar{
 			    TexMan.CheckForTexture("RE1HEART"),(2,20),
 			    DI_ITEM_CENTER|DI_SCREEN_CENTER_TOP
 		    );
-		//print current health status
+	//print current health status
 		    DrawString(pnewsmallfont,
 		        hpl.health>75?"Fine":
 		       (hpl.health>25?"Caution":
 		       "Danger!"),
-				(25,28),DI_TEXT_ALIGN_RIGHT|DI_SCREEN_CENTER_TOP,
+				(-3,27),DI_TEXT_ALIGN_LEFT|DI_SCREEN_CENTER_TOP,
 				hpl.health>75?Font.CR_DARKGREEN:
 			   (hpl.health>50?Font.CR_GOLD:
 			   (hpl.health>25?Font.CR_ORANGE:
@@ -525,7 +525,7 @@ class HDStatusBar:DoomStatusBar{
 			if(!hud_aspectscale.getbool())ysc*=1.2;
 			fill(
 				color(int(cpb*255),sbcolour.r,sbcolour.g,sbcolour.b),
-				22,26-cpb*2,3,ysc, DI_SCREEN_CENTER_TOP
+				23,23-cpb*2,3,ysc, DI_SCREEN_CENTER_TOP
 			);
 		}
 		
@@ -556,7 +556,7 @@ class HDStatusBar:DoomStatusBar{
 		){
 		    drawselectedweapon(78,-6,DI_SCREEN_CENTER_BOTTOM|DI_ITEM_LEFT_BOTTOM);
 	   
-//keys display panel
+    //keys display panel
         DrawTexture(
 		    TexMan.CheckForTexture("RE1PANL3"),(58,34)
 		    ,DI_SCREEN_CENTER_TOP
@@ -795,7 +795,7 @@ class HDStatusBar:DoomStatusBar{
 
     //draws the blood pressure bars
 	void DrawHealthTicker(
-		vector2 drawpos=(-3,20),
+		vector2 drawpos=(-2,17),
 		int flags=DI_SCREEN_CENTER_TOP
 	){
 	
