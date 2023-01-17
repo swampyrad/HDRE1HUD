@@ -460,7 +460,7 @@ class HDStatusBar:DoomStatusBar{
     //hide if not holding Use key, or if
     //"Always show full HUD" is enabled
 
-    if (hudlevel==2||RE1HUD_AlwaysShow){
+    if (hudlevel==2||RE1HUD_ShowInv||RE1HUD_AlwaysShow){
     //panel display graphic
         DrawTexture(
 			TexMan.CheckForTexture("RE1PANEL"),(-41,100),
@@ -487,7 +487,7 @@ class HDStatusBar:DoomStatusBar{
 		   (hpl.health>50?Font.CR_GOLD:
 		   (hpl.health>25?Font.CR_ORANGE:
 		    Font.CR_RED)),scale:(0.5,0.5)
-		);else if(hudlevel==2||RE1HUD_AlwaysShow){
+		);else if(hudlevel==2||RE1HUD_ShowEKG||RE1HUD_AlwaysShow){
 		
 		//draw the display panel
 		    DrawTexture(
@@ -518,7 +518,7 @@ class HDStatusBar:DoomStatusBar{
 		);
 
 		//heartbeat/playercolour tracker
-		if(hpl.beatmax&&RE1HUD_AlwaysShow||hudlevel==2){
+		if(hpl.beatmax&&RE1HUD_AlwaysShow||RE1HUD_ShowEKG||hudlevel==2){
 		
 			float cpb=hpl.beatcount*1./hpl.beatmax;
 			float ysc=-(3+hpl.bloodpressure*0.05);
@@ -724,7 +724,7 @@ class HDStatusBar:DoomStatusBar{
 
 //this is the mugshot position
 
-		if(usemughud&&RE1HUD_AlwaysShow||hudlevel==2){
+		if(usemughud&&(RE1HUD_AlwaysShow||RE1HUD_ShowMug)||hudlevel==2){
 	//draw the portrait display
 		DrawTexture(
 			TexMan.CheckForTexture("RE1STATS"),(0,0),
@@ -806,7 +806,7 @@ class HDStatusBar:DoomStatusBar{
 			}
 			int err=max(0,((100-hpl.health)>>3));
 			err=random[heart](0,err);
-			healthbars[STB_BEATERSIZE-2]=clamp(18-(hpl.bloodloss>>7)-(err>>2),1,18);
+			healthbars[STB_BEATERSIZE-2]=clamp(26-(hpl.bloodloss>>7)-(err>>2),1,26);//was 18
 			healthbars[STB_BEATERSIZE-1]=(hpl.inpain?random[heart](1,7):1)+err+random[heart](0,(hpl.bloodpressure>>3));
 		}
 		for(int i=0;i<STB_BEATERSIZE;i++){
