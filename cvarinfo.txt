@@ -1,3 +1,6 @@
 nosave bool RE1HUD_AlwaysShow = false;
+nosave bool RE1HUD_ShowEKG = true;
+nosave bool RE1HUD_ShowMug = true;
+nosave bool RE1HUD_ShowInv = true;
 nosave int RE1HUD_MugOffsetX = 0;
 nosave int RE1HUD_MugOffsetY = 0;

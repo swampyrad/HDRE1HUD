@@ -6,11 +6,17 @@ AddOptionMenu "OptionsMenu"
 
 OptionMenu RE1HUDOptions
 {
-  Title "RE1 HUD Options"
+    Title "RE1 HUD Options"
   
-	Option "Always show Full HUD: ", "RE1HUD_AlwaysShow", "OnOff"
-	Slider "Mug Offset X: ", "RE1HUD_MugOffsetX", -10, 10, 1, 0
+    Slider "Mug Offset X: ", "RE1HUD_MugOffsetX", -10, 10, 1, 0
 	Slider "Mug Offset Y: ", "RE1HUD_MugOffsetY", -10, 10, 1, 0
-	
+    StaticText ""
+    Option "Show Mugshot display: ", "RE1HUD_ShowMug", "OnOff"
+    Option "Show EKG display: ", "RE1HUD_ShowEKG", "OnOff"
+    Option "Show Inventory display: ", "RE1HUD_ShowInv", "OnOff"
+    StaticText ""
+    StaticText "Note: This overrides the options above."
+    Option "Always show Full HUD: ", "RE1HUD_AlwaysShow", "OnOff"
+		
 }
 
